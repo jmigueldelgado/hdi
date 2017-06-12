@@ -6,14 +6,24 @@
 twd <- function(df.hist,df.x)
 {
     xts.obj <- xts(df.hist$rs,order.by=df.hist$posix)
-    hist.mean <- apply.monthly(xts.obj,"mean")
-
-    hist.mean <- data.frame(posix=time(hist.mean),rs=coredata(hist.mean))
-    hist.mean$month <- month(hist.mean$posix)
+    x <- vector()
+    for(i in seq(1,12))
+    {
+        x[i] <- apply.yearly(xts.obj[.indexmon(xts.obj) %in% (i-1)],"mean",na.rm=TRUE)
+    }
+    hist.mean <- data.frame(month=seq(1,12),rs=x)
+    
+    xts.obj <- xts(df.x$rs,order.by=df.x$posix)
+    df.mean <- apply.monthly(xts.obj,mean)    
+    df.x <- data.frame(posix=time(df.mean),rs=coredata(df.mean))
     df.x$month <- month(df.x$posix)
-    df.climatology <- left_join(df.x$month,hist.mean$month,by=month)
-    df.climatology <- df.climatology[,c("posix.x","rs.y")]
-    colnames(df.climatology) <- colnames(df.x)
+    df.x$rs <- na.approx(df.x$rs)
+
+
+    
+    df.climatology <- inner_join(df.x,hist.mean,by="month")
+    df.climatology <- df.climatology[,c("posix","rs.y")]
+    colnames(df.climatology) <- c("posix","rs")
     deficit0 <- df.x$rs-df.climatology$rs
     deficit0[deficit0>=0] <- NA
     duration0 <- deficit0-deficit0+1
