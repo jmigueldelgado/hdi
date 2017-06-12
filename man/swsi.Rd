@@ -2,19 +2,19 @@
 % Please edit documentation in R/swsi.R
 \name{swsi}
 \alias{swsi}
-\title{requires lubridate
+\title{requires lubridate, dplyr
 read more in http://climate.colostate.edu/pdfs/climo_rpt_91-3.pdf}
 \usage{
 swsi(df.hist, df.i, coeff)
 }
 \arguments{
-\item{df.hist}{dataframe of historical monthly reservoir volume, streamflow and precipitation of columns rs, sf, pr respectively. First column must be POSIXct}
+\item{df.hist}{dataframe of historical monthly reservoir volume, streamflow and precipitation of columns rs, sf, pr respectively. First column must be of class POSIXct}
 
-\item{df.i}{dataframe with same structure of df.hist with values for the month for which we are calculating the index. Can have more than one row}
+\item{df.i}{dataframe with same structure of df.hist with values for the month for which we are calculating the index. Can have more than one row, ie more than one month}
 
 \item{coeff}{is a dataframe of time (posix) and coefficients a, b and c for each month January to December (coefficients may vary along the seasons).}
 }
 \description{
-requires lubridate
+requires lubridate, dplyr
 read more in http://climate.colostate.edu/pdfs/climo_rpt_91-3.pdf
 }
