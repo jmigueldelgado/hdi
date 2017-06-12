@@ -3,7 +3,7 @@
 #' @param df.hist dataframe of historical monthly reservoir fill volume in % column name is "rs". First column must be of class POSIXct
 #' @param df.x dataframe with same structure of df.hist with values for the months which we are calculating the index. Should have more than one row, ie more than one month
 #' @export
-twd <- function(df.hist,df.x)
+twd <- function(df.hist,df)
 {
     xts.obj <- xts(df.hist$rs,order.by=df.hist$posix)
     x <- vector()
@@ -13,7 +13,7 @@ twd <- function(df.hist,df.x)
     }
     hist.mean <- data.frame(month=seq(1,12),rs=x)
     
-    xts.obj <- xts(df.x$rs,order.by=df.x$posix)
+    xts.obj <- xts(df$rs,order.by=df$posix)
     df.mean <- apply.monthly(xts.obj,mean)    
     df.x <- data.frame(posix=time(df.mean),rs=coredata(df.mean))
     df.x$month <- month(df.x$posix)

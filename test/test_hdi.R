@@ -11,4 +11,4 @@ head(res)
 
 df <- data.frame(posix=as.POSIXct(res$Date),rs=res$id_1)
 
-x <- twd(df,head(df,50))
+x <- twd(df,df)
