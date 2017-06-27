@@ -1,6 +1,6 @@
 #' requires xts, lubridate, dplyr
 #' read more about total water deficit 10.1029/WR016i002p00297
-#' @param df.hist dataframe of historical monthly reservoir fill volume in % column name is "rs". First column must be of class POSIXct
+#' @param df.hist dataframe of historical monthly reservoir fill volume in \% column name is "rs". First column must be of class POSIXct
 #' @param df.x dataframe with same structure of df.hist with values for the months which we are calculating the index. Should have more than one row, ie more than one month
 #' @export
 twd <- function(df.hist,df)
@@ -9,7 +9,7 @@ twd <- function(df.hist,df)
     x <- vector()
     for(i in seq(1,12))
     {
-        x[i] <- apply.yearly(xts.obj[.indexmon(xts.obj) %in% (i-1)],"mean",na.rm=TRUE)
+        x[i] <- mean(apply.yearly(xts.obj[.indexmon(xts.obj) %in% (i-1)],"mean",na.rm=TRUE),na.rm=TRUE)
     }
     hist.mean <- data.frame(month=seq(1,12),rs=x)
     
